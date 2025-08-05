@@ -18,17 +18,18 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  socket.on("rollDice", ({ diceCount, userId }) => {
-    const results = [];
-    for (let i = 0; i < diceCount; i++) {
-      results.push(Math.floor(Math.random() * 10) + 1); // d10: 1–10
-    }
-    io.emit("diceRolled", {
-      results,
-      userId,
-      diceCount,
-      timestamp: new Date().toISOString()
-    });
+  socket.on("rollDice", ({ diceCount, userId, difficulty }) => {
+  const results = [];
+  for (let i = 0; i < diceCount; i++) {
+  	results.push(Math.floor(Math.random() * 10) + 1);
+  }
+  io.emit("diceRolled", {
+  	results,
+  	userId,
+  	diceCount,
+  	difficulty,
+  	timestamp: new Date().toISOString()
+  });
   });
 
   socket.on("disconnect", () => {
